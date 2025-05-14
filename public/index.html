@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BakeyBloom Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff8f0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #b55d38;
+      margin-bottom: 10px;
+    }
+
+    #chat {
+      background: #fff;
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    .user, .bot {
+      margin: 10px 0;
+      padding: 10px 15px;
+      max-width: 80%;
+      border-radius: 20px;
+      line-height: 1.5;
+    }
+
+    .user {
+      background-color: #dbeafe;
+      align-self: flex-end;
+      color: #1e3a8a;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .bot {
+      background-color: #fef9c3;
+      color: #713f12;
+      margin-right: auto;
+    }
+
+    #inputBox {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px 0 0 20px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      background-color: #fbbf24;
+      border: none;
+      border-radius: 0 20px 20px 0;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #f59e0b;
+    }
+
+    @media screen and (max-width: 600px) {
+      #chat {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>BakeyBloom Chatbot</h2>
+  <div id="chat"></div>
+
+  <div id="inputBox">
+    <input type="text" id="input" placeholder="Ask about our bakery..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById('input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chat = document.getElementById('chat');
+      chat.innerHTML += `<div class="user"><strong>You:</strong> ${message}</div>`;
+      input.value = '';
+
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await response.json();
+      chat.innerHTML += `<div class="bot"><strong>Bot:</strong> ${data.reply}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
