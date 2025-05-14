@@ -18,7 +18,8 @@ A simple chatbot for the BakeyBloom bakery e-commerce website, built using Gemin
 1. Clone the repository:
    ```bash
    git clone https://github.com/zayneb-hamdi/BakeyBloom-Assistant.git
-2. run the server:
+2. get your API key and add it to chat.js
+3. run the server:
    ```bash
    node server/server
 ## Interfaces
